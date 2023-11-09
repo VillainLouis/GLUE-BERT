@@ -8,7 +8,7 @@ class MNLI_reader(torch.utils.data.Dataset):
         self.token_type=[]
         self.label=[]
         label_to_dict={"neutral":0,"entailment":1,"contradiction":2}
-        self.tokenize=BertTokenizer.from_pretrained("bert-base-uncased")
+        self.tokenize=BertTokenizer.from_pretrained("/data/jliu/models/bert-base-uncased")
         with open(path,'r',encoding='utf-8') as f:
             lines=f.readlines()
             for line in lines[1:]:

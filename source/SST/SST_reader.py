@@ -12,7 +12,7 @@ class SST_reader(torch.utils.data.Dataset):
         self.label = []
         self.ids = []
         self.mask = []
-        self.token = BertTokenizer.from_pretrained("bert-base-uncased")
+        self.token = BertTokenizer.from_pretrained("/data/jliu/models/bert-base-uncased")
         with open(path, 'r', encoding='utf-8') as f:
             start_indices=["[CLS]"]
             lines = f.readlines()
