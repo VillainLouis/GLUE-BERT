@@ -33,8 +33,14 @@ def main(argv):
         
     
     print(f"The model architecture --> ")
+    trainable_paras = 0
+    all_paras = 0
     for layer, para in model.named_parameters():
+        all_paras += para.numel()
         print(f"{layer} --> para.required_grad = {para.requires_grad}")
+        if para.requires_grad:
+            trainable_paras += para.numel()
+    print(f"Trainable paras: {trainable_paras}, all paras: {all_paras} ---> {trainable_paras / all_paras}")
     model=model.to(device)
     model.train()
     optimizer=torch.optim.AdamW(model.parameters(),2e-5) # 2e-5 92.5；3e-5 91.5; 4e-5 91.1; 5e-5 90.5
@@ -101,27 +107,27 @@ def main(argv):
             print("accuracy: %s" % str(correct / total))
 
 
-def flex_lora(model, rank = 8, alpha = 32):
+def flex_lora(model, rank = 2, alpha = 4):
     target_attn_matrix = { # attn
             # "0": ["query", "key", "value"],
             # "1": ["query", "key", "value"],
             # "2": ["query", "key", "value"],
             # "3": ["query", "key", "value"],
             # "4": ["query", "key", "value"],
-            "5": ["query", "key", "value"],
-            "6": ["query", "key", "value"],
-            "7": ["query", "key", "value"],
-            "8": ["query", "key", "value"],
-            "9": ["query", "key", "value"],
-            "10": ["query", "key", "value"],
-            "11": ["query", "key", "value"]
+            # "5": ["query", "key", "value"],
+            # "6": ["query", "key", "value"],
+            # "7": ["query", "key", "value"],
+            # "8": ["query", "key", "value"],
+            # "9": ["query", "key", "value"],
+            # "10": ["query", "key", "value"],
+            # "11": ["query", "key", "value"]
         }
     target_ffn_matrix = { # ffn
-        # "0": ["intermediate", "output"],
-        # "1": ["intermediate", "output"],
-        # "2": ["intermediate", "output"],
-        # "3": ["intermediate", "output"],
-        # "4": ["intermediate", "output"],
+        "0": ["intermediate", "output"],
+        "1": ["intermediate", "output"],
+        "2": ["intermediate", "output"],
+        "3": ["intermediate", "output"],
+        "4": ["intermediate", "output"],
         "5": ["intermediate", "output"],
         "6": ["intermediate", "output"],
         "7": ["intermediate", "output"],
